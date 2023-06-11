@@ -2,43 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\User;
+use App\Model\Source;
 use Illuminate\Http\Request;
-use App\Article;
-use App\Source;
-use GuzzleHttp\Client;
-use Carbon\Carbon;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+
 
 class SourceController extends Controller
 {
-    public function index(Request $request) {
-        $client = new Client();
-        $req = $client->request('GET','https://newsapi.org/v1/sources', [
-            'Accept'       => 'application/json',
-            'Content-Type' => 'application/json',
-        ]);
+    public function getCategories(Request $request) {
+        try {
+            $data = Source::distinct('category')->pluck('category')->toArray();
 
-        $stream   = $req->getBody();
-        $contents = json_decode($stream->getContents());
-        $sources = collect($contents->sources);
+            return $this->okResponse('Categories fetched successfully', $data);
 
-        $sources->each(function ($source) {
-            $ng_source = Source::updateOrCreate(['id' => $source->id],
-            [
-                'category'       => $source->category,
-                'description'    => $source->description,
-                'url'            => $source->url,
-                'language'       => $source->language,
-                'country'        => $source->country,
-                'NG_Description' => 'xxx',
-                'NG_Review'      => 'yyy',
-            ]);
-        });
-
-        return Source::all();
-
+        } catch(Exception $e) {
+            return $this->serverErrorResponse("Exception: {$e->getMessage()} in {$e->getFile()} on line {$e->getLine()}");
+        }
     }
 
-    public function show(Request $request, Source $source) {
-        return $source;
+    public function getSources(Request $request) {
+        try {
+            $data = Source::distinct('news_source')->pluck('news_source')->toArray();
+
+            return $this->okResponse('News Sources fetched successfully', $data);
+
+        } catch(Exception $e) {
+            return $this->serverErrorResponse("Exception: {$e->getMessage()} in {$e->getFile()} on line {$e->getLine()}");
+        }
     }
+
+  
 }

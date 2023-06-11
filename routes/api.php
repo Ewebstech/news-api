@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SourceController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,15 +16,17 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::resource('sources', 'SourceController', ['only' => ['index', 'show']]);
-Route::resource('sources.articles', 'ArticleController', ['only' => ['index', 'show']]);
-
-
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::prefix('news')->group(function () {
+        Route::get('/categories', [SourceController::class, 'getCategories']);
+        Route::get('/sources', [SourceController::class, 'getSources']);
+        Route::get('/authors', [ArticleController::class, 'getAuthors']);
+
+    });
     Route::post('/logout', [AuthController::class, 'logout']);
 });

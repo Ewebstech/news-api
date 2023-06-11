@@ -2,49 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
-use App\Source;
-use GuzzleHttp\Client;
+use Exception;
+use App\Models\User;
+use App\Model\Article;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+
 
 class ArticleController extends Controller
 {
-    public function index(Request $request, Source $source) {
-        $client = new Client();
-        $req = $client->request('GET','https://newsapi.org/v1/articles', [
-            'Accept'       => 'application/json',
-            'Content-Type' => 'application/json',
-            'query' => [
-                'source'       => $source->id,
-                'apiKey'       => env('NEWSAPI_API_KEY'),
-            ],
-        ]);
+    public function getAuthors(Request $request) {
+        try {
+            $data = Article::distinct('author')->pluck('author')->toArray();
 
-        $stream   = $req->getBody();
-        $contents = json_decode($stream->getContents());
-        $articles = collect($contents->articles);
+            return $this->okResponse('Categories fetched successfully', $data);
 
-        $articles->each(function ($article) use ($source) {
-            $ng_article = Article::updateOrCreate(['url' => $article->url],
-            [
-                'source_id'      => $source->id,
-                'author'         => $article->author,
-                'title'          => $article->title,
-                'description'    => $article->description,
-                'url'            => $article->url,
-                'urlToImage'     => $article->urlToImage,
-                'publishedAt'    => Carbon::parse($article->publishedAt),
-                'NG_Description' => 'www',
-                'NG_Review'      => 'zzz',
-            ]);
-        });
-
-
-        return Article::where('source_id', $source->id)->get();
-    }
-
-    public function show(Request $request, Source $source, Article $article) {
-        return $article;
+        } catch(Exception $e) {
+            return $this->serverErrorResponse("Exception: {$e->getMessage()} in {$e->getFile()} on line {$e->getLine()}");
+        }
     }
 }

@@ -19,11 +19,11 @@ class CreateArticlesTable extends Migration
             $table->string('author')->nullable();
             $table->string('title');
             $table->text('description');
-            $table->string('url');
-            $table->string('urlToImage');
+            $table->text('url');
+            $table->text('urlToImage');
             $table->timestamp('publishedAt');
             $table->timestamps();
-            $table->integer('last_update')->default(0);
+            $table->integer('last_updated')->default(0);
             $table->foreign('source_id')->references('id')->on('sources');
         });
     }

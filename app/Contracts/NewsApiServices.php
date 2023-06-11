@@ -4,12 +4,14 @@ namespace App\Contracts;
 
 use Closure;
 use Exception;
+use App\Source;
 use GuzzleHttp\Exception\RequestException;
 
 abstract class NewsApiServices
 {
     public const OK = "Process Successful";
     public const BAD = "Process Failed";
+    public const RATE_LIMIT = 30;
     /**
      * Fetch news sources
      *
@@ -22,7 +24,7 @@ abstract class NewsApiServices
      * 
      * @return array
      */
-    abstract public function fetchArticles(): string;
+    abstract public function fetchArticles(array $source): string;
 
     /**
      * Handle generic exception.

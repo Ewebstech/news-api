@@ -1,21 +1,24 @@
 <?php
 namespace App\Services;
 
-use NewsApiOrg;
 use App\Models\Feed;
 use App\Models\Item;
+use App\Services\NewsApiOrg;
 use Illuminate\Support\Facades\DB;
 
 class InitFeeds
 {
-    public function __construct(NewsApiOrg $newsApiOrg)
+
+    public static function getFeedData(): void
     {
-        $this->newsApiOrg = $newsApiOrg;
+        self::NewsApiOrg();
     }
-    public function getFeedDataFromNewsApiOrg(): void
+
+    private static function NewsApiOrg(): void
     {
-        $sources = $this->newsApiOrg->fetchSources();
-        $this->newsApiOrg->fetchArticles();
+        $newsApiOrg = new NewsApiOrg;
+        $sources = $newsApiOrg->fetchSources();
+        $newsApiOrg->fetchArticles($sources);
     }
 
 

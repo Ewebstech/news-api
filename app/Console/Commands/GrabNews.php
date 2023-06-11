@@ -22,6 +22,7 @@ class GrabNews extends Command
      */
     protected $description = 'This will grab news from feed sources';
 
+    protected $initFeeds;
     /**
      * Create a new command instance.
      *
@@ -30,6 +31,7 @@ class GrabNews extends Command
     public function __construct()
     {
         parent::__construct();
+        
     }
 
     /**
