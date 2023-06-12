@@ -52,7 +52,7 @@ class TheGuardian extends NewsApiServices
     public function fetchArticles(array $sources): string
     {
         try{
-            $sources = array_slice($sources, 0, NewsApiOrg::RATE_LIMIT);
+            $sources = array_slice($sources, 0, TheGuardian::RATE_LIMIT);
             foreach($sources as $source){
                 $client = new Client();
                 $req = $client->request('GET','https://content.guardianapis.com/search', [
@@ -82,7 +82,7 @@ class TheGuardian extends NewsApiServices
                 };
 
             }
-            return NewsApiOrg::OK;
+            return TheGuardian::OK;
         } catch(Exception $e){
             return handleException();
         }

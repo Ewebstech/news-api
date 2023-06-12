@@ -12,7 +12,7 @@ class InitFeeds
 
     public static function getFeedData(): void
     {
-        //self::NewsApiOrg();
+        self::NewsApiOrg();
 
         self::TheGuardian();
     }
