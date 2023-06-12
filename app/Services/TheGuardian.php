@@ -41,7 +41,7 @@ class TheGuardian extends NewsApiServices
                 ]);
             }
        
-            $sources = Source::all()->toArray();
+            $sources = Source::where('news_source', TheGuardian::NEWS_SOURCE)->toArray();
             return $sources;
         } catch(Exception $e){
             return handleException();
