@@ -7,7 +7,7 @@ newsapi-app
 
 > 1. Picks one of these API’s: 
 > https://newsapi.org/
-> https://https://content.guardianapis.com
+> https://content.guardianapis.com
 > https://api.nytimes.com
 > 2. Allow authenticated users to set news preferences based on Authors, categories and sources where the news come from. 
 > 3. Allow filtering of news items by category, author, date and source
@@ -34,6 +34,7 @@ Data returned are all in JSON format.
 Full API Postman documentation is available here - `https://documenter.getpostman.com/view/5785856/2s93sc4CQF`
 
 **Testing**
+
 Application is running and can be tested at `http://66.228.61.106:7444`
 
 **Expansion Considerations**
