@@ -38,7 +38,7 @@ class NewsApiOrg extends NewsApiServices
                 ]);
             });
 
-            $sources = Source::where('news_source', NewsApiOrg::NEWS_SOURCE)->toArray();
+            $sources = Source::where('news_source', NewsApiOrg::NEWS_SOURCE)->get()->toArray();
             return $sources;
         } catch(Exception $e){
             return handleException();
