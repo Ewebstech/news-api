@@ -9,12 +9,24 @@ use App\Model\Article;
 use Illuminate\Http\Request;
 use App\Model\UserPreference;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
 
 class ArticleController extends Controller
 {
-    public function requestFeeds(Request $request){
+    /**
+     * Endpoint to return feeds based on filter params
+     * 
+     * @param query author
+     * @param query keyword
+     * @param query category
+     * @param query source
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function requestFeeds(Request $request): JsonResponse
+    {
 
         $Query_ = Article::where('title','LIKE',"%{$request->query('keyword')}%");
 

@@ -7,12 +7,19 @@ use App\Model\User;
 use App\Model\Source;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
 
 class SourceController extends Controller
 {
-    public function getCategories(Request $request) {
+    /**
+     * Fetch All News Categories
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCategories(Request $request): JsonResponse
+    {
         try {
             $data = Source::distinct('category')->pluck('category')->toArray();
 
@@ -23,7 +30,13 @@ class SourceController extends Controller
         }
     }
 
-    public function getSources(Request $request) {
+    /**
+     * Fetch all sources
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSources(Request $request): JsonResponse 
+    {
         try {
             $data = Source::distinct('news_source')->pluck('news_source')->toArray();
 

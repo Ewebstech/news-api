@@ -8,12 +8,23 @@ use App\Model\Article;
 use Illuminate\Http\Request;
 use App\Model\UserPreference;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
 
 class UserController extends Controller
 {
-    public function savePreferences(Request $request) {
+    /**
+     * Save User Preferences
+     * 
+     * @param array sources
+     * @param array authors
+     * @param array categories
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function savePreferences(Request $request): JsonResponse
+    {
         try {
             $fields = $request->validate([
                 'sources' => 'array',
@@ -41,7 +52,13 @@ class UserController extends Controller
         }
     }
 
-    public function getPreferences(Request $request){
+    /**
+     * Get set preferences for logged in user
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPreferences(Request $request): JsonResponse
+    {
         try{
             $data = UserPreference::where('user_id', auth()->user()->id)->first()->toArray();
             $data['sources'] = explode(',', $data['sources']);

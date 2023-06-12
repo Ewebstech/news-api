@@ -6,12 +6,22 @@ use Exception;
 use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request) {
+
+    /**
+     * Register User
+     * @param email
+     * @param password
+     * @param name
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request): JsonResponse {
         try{
             
             $fields = $request->validate([
@@ -34,7 +44,14 @@ class AuthController extends Controller
         
     }
 
-    public function login(Request $request) {
+    /**
+     * Authenticate User and Generate Token
+     * @param email
+     * @param password
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(Request $request): JsonResponse {
         try {
             $fields = $request->validate([
                 'email' => 'required|string',
