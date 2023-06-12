@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\User;
+use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -25,21 +26,10 @@ class AuthController extends Controller
                 'password' => bcrypt($fields['password'])
             ]);
     
-            $response = [
-                'status' => true,
-                'message' => 'Registration Successful',
-                'data' => $user
-            ];
-    
-            return response($response, 201);
+            return $this->createdResponse('Registration Successful', $user);
 
         } catch(Exception $e){
-            $response = [
-                'status' => false,
-                'message' => "Exception: {$e->getMessage()} in {$e->getFile()} on line {$e->getLine()}"
-            ];
-
-            return response($response, 500);
+            return $this->serverErrorResponse("Exception: {$e->getMessage()} in {$e->getFile()} on line {$e->getLine()}");
         }
         
     }
@@ -65,21 +55,11 @@ class AuthController extends Controller
             $token = $user->createToken('myapptoken')->plainTextToken;
 
             $user->access_token = $token;
-            $response = [
-                'status' => true,
-                'message' => 'Login Successful',
-                'data' => $user
-            ];
-    
-            return response($response, 200);
+            
+            return $this->okResponse('Login successful', $user);
 
-        }catch(Exception $e){
-            $response = [
-                'status' => false,
-                'message' => "Exception: {$e->getMessage()} in {$e->getFile()} on line {$e->getLine()}"
-            ];
-
-            return response($response, 500);
+        } catch(Exception $e){
+            return $this->serverErrorResponse("Exception: {$e->getMessage()} in {$e->getFile()} on line {$e->getLine()}");
         }
        
     }

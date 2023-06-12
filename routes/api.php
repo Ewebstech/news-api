@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\SourceController;
 use App\Http\Controllers\ArticleController;
 
@@ -27,6 +28,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/sources', [SourceController::class, 'getSources']);
         Route::get('/authors', [ArticleController::class, 'getAuthors']);
 
+        Route::get('/feeds', [ArticleController::class, 'feeds']);
+
+        Route::get('/request-feeds', [ArticleController::class, 'requestFeeds']);
+
+
+
     });
+
+    Route::prefix('users')->group(function () {
+        Route::post('/save-preferences', [UserController::class, 'savePreferences']);
+        Route::get('/get-preferences', [UserController::class, 'getPreferences']);
+
+
+    });
+
     Route::post('/logout', [AuthController::class, 'logout']);
 });

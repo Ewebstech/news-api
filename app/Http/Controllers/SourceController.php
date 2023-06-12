@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\User;
+use App\Model\User;
 use App\Model\Source;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
